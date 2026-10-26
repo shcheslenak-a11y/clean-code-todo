@@ -15,7 +15,21 @@
   "type": "commonjs",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "npx eslint",
+    "format": "npx prettier . --check",
+    "lint:write": "npx eslint --fix",
+    "prepare": "husky"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js|jsx)": [
+      "npm run lint:write",
+      "git add"
+    ]
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
