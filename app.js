@@ -10,29 +10,22 @@
 const newTaskInput = document.getElementById("new-task"); //Add a new task.
 const createTaskButton = document.getElementsByTagName("button")[0]; //first button
 const incompleteTaskHolder = document.getElementById("incompleteTasks"); //ul of #incompleteTasks
-const completedTasksHolder = document.getElementById("completed-tasks"); //completed-tasks
+const completedTasksHolder = document.getElementById("completed-tasks"); //ul of #completed-tasks
 
 //New task list item
 const formTaskElement = function (taskString) {
   const taskItem = document.createElement("li");
 
-  //input (checkbox)
-  const statusCheckBox = document.createElement("input"); //checkbx
-  //label
-  const taskDescription = document.createElement("label"); //label
-  //input (text)
-  const editDescriptionInput = document.createElement("input"); //text
-  //button.edit
-  const switchEditModeButton = document.createElement("button"); //edit button
-
-  //button.delete
-  const taskDeleteButton = document.createElement("button"); //delete button
-  const taskDeleteButtonImg = document.createElement("img"); //delete button image
+  const statusCheckBox = document.createElement("input");
+  const taskDescription = document.createElement("label");
+  const editDescriptionInput = document.createElement("input");
+  const switchEditModeButton = document.createElement("button");
+  const taskDeleteButton = document.createElement("button");
+  const taskDeleteButtonImg = document.createElement("img");
 
   taskDescription.innerText = taskString;
   taskDescription.className = "task";
 
-  //Each elements, needs appending
   statusCheckBox.type = "checkbox";
   editDescriptionInput.type = "text";
   editDescriptionInput.className = "task";
@@ -44,7 +37,6 @@ const formTaskElement = function (taskString) {
   taskDeleteButtonImg.src = "./remove.svg";
   taskDeleteButton.appendChild(taskDeleteButtonImg);
 
-  //and appending.
   taskItem.appendChild(statusCheckBox);
   taskItem.appendChild(taskDescription);
   taskItem.appendChild(editDescriptionInput);
@@ -54,18 +46,14 @@ const formTaskElement = function (taskString) {
 };
 
 const createTask = function () {
-  //Create a new list item with the text from the #new-task:
-  if (!newTaskInput.value) return;
+  if (!newTaskInput.value) return; //prevent creation of empty tasks.
   const taskItem = formTaskElement(newTaskInput.value);
 
-  //Append taskItem to incompleteTaskHolder
   incompleteTaskHolder.appendChild(taskItem);
   bindTaskEvents(taskItem);
 
   newTaskInput.value = "";
 };
-
-//Edit an existing task.
 
 const editTask = function () {
   const taskItem = this.parentNode;
@@ -74,30 +62,24 @@ const editTask = function () {
   const taskDescription = taskItem.querySelector("label");
   const switchEditModeButton = taskItem.querySelector(".edit");
   const isInEditMode = taskItem.classList.contains("editMode");
-  //If class of the parent is .editmode
+
   if (isInEditMode) {
-    //switch to .editmode
-    //label becomes the inputs value.
-    taskDescription.innerText = editDescriptionInput.value;
+    taskDescription.innerText = editDescriptionInput.value; //Save edited description for show
     switchEditModeButton.innerText = "Edit";
   } else {
-    editDescriptionInput.value = taskDescription.innerText;
+    editDescriptionInput.value = taskDescription.innerText; //Get current description for modification
     switchEditModeButton.innerText = "Save";
   }
 
-  //toggle .editmode on the parent.
   taskItem.classList.toggle("editMode");
 };
 
-//Delete task.
 const deleteTask = function () {
   const taskItem = this.parentNode;
   const taskHolder = taskItem.parentNode;
-  //Remove the parent list item from the ul.
   taskHolder.removeChild(taskItem);
 };
 
-//change task status
 const toggleTaskStatus = function () {
   const taskItem = this.parentNode;
   const ul = taskItem.parentNode;
@@ -106,33 +88,20 @@ const toggleTaskStatus = function () {
   newHolder.appendChild(taskItem);
 };
 
-//The glue to hold it all together.
-
-//Set the click handler to the addTask function.
 createTaskButton.addEventListener("click", createTask);
 
 const bindTaskEvents = function (taskItem) {
-  //select ListItems children
   const statusCheckBox = taskItem.querySelector("input[type=checkbox]");
   const switchEditModeButton = taskItem.querySelector("button.edit");
   const taskDeleteButton = taskItem.querySelector("button.delete");
 
-  //Bind editTask to edit button.
   switchEditModeButton.onclick = editTask;
-  //Bind deleteTask to delete button.
   taskDeleteButton.onclick = deleteTask;
-  //Bind taskCompleted to checkBoxEventHandler.
   statusCheckBox.onchange = toggleTaskStatus;
 };
 
-//cycle over incompleteTaskHolder ul list items
-//for each list item
-
+//cycle over existing tasks
 for (const task of incompleteTaskHolder.children) bindTaskEvents(task);
 for (const task of completedTasksHolder.children) bindTaskEvents(task);
 
 // Issues with usability don't get seen until they are in front of a human tester.
-
-//prevent creation of empty tasks.
-
-//Change edit to save when you are in edit mode.
