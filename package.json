@@ -1,0 +1,44 @@
+{
+  "name": "clean-code-todo",
+  "version": "1.0.0",
+  "description": "Учебный репозиторий для задания [«Clean Code»](https://github.com/rolling-scopes-school/tasks/blob/master/fullstack-engineering/tasks/clean-code/README.md) курса RS School Fullstack Engineering.",
+  "homepage": "https://github.com/shcheslenak-a11y/clean-code-todo#readme",
+  "bugs": {
+    "url": "https://github.com/shcheslenak-a11y/clean-code-todo/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shcheslenak-a11y/clean-code-todo.git"
+  },
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "app.js",
+  "scripts": {
+    "lint": "npx eslint",
+    "format": "npx prettier . --check",
+    "lint:write": "npx eslint --fix",
+    "prepare": "husky"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.(js|jsx)": [
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "typescript-eslint": "^8.72.0"
+  },
+  "dependencies": {
+    "husky": "^9.1.7",
+    "prettier": "^3.9.10"
+  }
+}
